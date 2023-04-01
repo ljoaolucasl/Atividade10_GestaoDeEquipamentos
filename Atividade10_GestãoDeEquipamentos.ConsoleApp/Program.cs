@@ -135,6 +135,12 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
                         dataAberturaChamados.Add(dataAbertura);
 
                         idChamadosAdd++;
+
+                        VisualizarChamados(idChamados, tituloChamados, descricaoChamados, equipamentoChamados, dataAberturaChamados);
+
+                        PulaLinha();
+                        MensagemColor($"Chamado \"{titulo}\" adicionado com sucesso!", ConsoleColor.Green);
+
                         #endregion
                     }
 
@@ -150,16 +156,16 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
 
                         indexEscolhido = idEquipamentos.IndexOf(idEscolhido);
 
-                        Console.Write("Digite o Título do Chamado: ");
+                        Console.Write("Digite o Novo Título do Chamado: ");
                         titulo = Console.ReadLine();
 
-                        Console.Write("Digite a Descrição: ");
+                        Console.Write("Digite a Nova Descrição: ");
                         descricao = Console.ReadLine();
 
-                        Console.Write("Digite o Equipamento: ");
+                        Console.Write("Digite o Novo Equipamento: ");
                         equipamento = Console.ReadLine();
 
-                        Console.Write("Digite a Data de Abertura: ");
+                        Console.Write("Digite a Nova Data de Abertura: ");
                         dataAbertura = Console.ReadLine();
 
                         tituloChamados.RemoveAt(indexEscolhido);
@@ -171,6 +177,14 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
                         descricaoChamados.Insert(indexEscolhido, descricao);
                         equipamentoChamados.Insert(indexEscolhido, equipamento);
                         dataAberturaChamados.Insert(indexEscolhido, dataAbertura);
+
+                        Console.Clear();
+
+                        VisualizarChamados(idChamados, tituloChamados, descricaoChamados, equipamentoChamados, dataAberturaChamados);
+
+                        PulaLinha();
+                        MensagemColor($"Chamado com o ID \"{idEscolhido}\" editado com sucesso!", ConsoleColor.Green);
+
                         #endregion
                     }
 
@@ -186,11 +200,29 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
 
                         indexEscolhido = idEquipamentos.IndexOf(idEscolhido);
 
-                        idChamados.RemoveAt(indexEscolhido);
-                        tituloChamados.RemoveAt(indexEscolhido);
-                        descricaoChamados.RemoveAt(indexEscolhido);
-                        equipamentoChamados.RemoveAt(indexEscolhido);
-                        dataAberturaChamados.RemoveAt(indexEscolhido);
+                        Console.Write("Você tem certeza que deseja excluir o Chamado com o ID ");
+                        MensagemColor($"\"{idEscolhido}\"", ConsoleColor.Blue);
+                        Console.WriteLine("? (S/N)");
+
+                        string confirmacao = Console.ReadLine();
+
+                        if (confirmacao.ToUpper() == "S")
+                        {
+
+                            idChamados.RemoveAt(indexEscolhido);
+                            tituloChamados.RemoveAt(indexEscolhido);
+                            descricaoChamados.RemoveAt(indexEscolhido);
+                            equipamentoChamados.RemoveAt(indexEscolhido);
+                            dataAberturaChamados.RemoveAt(indexEscolhido);
+
+                            Console.Clear();
+
+                            VisualizarChamados(idChamados, tituloChamados, descricaoChamados, equipamentoChamados, dataAberturaChamados);
+
+                            PulaLinha();
+                            MensagemColor($"Chamado com o ID \"{idEscolhido}\" editado com sucesso!", ConsoleColor.Green);
+                        }
+
                         #endregion
                     }
                     else if (opcaoEscolhidaSubMenu.ToUpper() == "S")
@@ -241,6 +273,14 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
                         fabricanteEquipamentos.Add(fabricante);
 
                         idEquipamentosAdd++;
+
+                        Console.Clear();
+
+                        VisualizarEquipamentos(idEquipamentos, nomeEquipamentos, precoEquipamentos, numeroSerieEquipamentos, dataFabricacaoEquipamentos, fabricanteEquipamentos);
+
+                        PulaLinha();
+                        MensagemColor($"Equipamento \"{nome}\" adicionado com sucesso!", ConsoleColor.Green);
+
                         #endregion
                     }
 
@@ -256,19 +296,19 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
 
                         indexEscolhido = idEquipamentos.IndexOf(idEscolhido);
 
-                        Console.Write("Digite o Nome do Equipamento: ");
+                        Console.Write("Digite o Novo Nome do Equipamento: ");
                         nome = Console.ReadLine();
 
-                        Console.Write("Digite o Preço de Aquisição: ");
+                        Console.Write("Digite o Novo Preço de Aquisição: ");
                         preco = Console.ReadLine();
 
-                        Console.Write("Digite o N°Série: ");
+                        Console.Write("Digite o Novo N°Série: ");
                         numeroSerie = Console.ReadLine();
 
-                        Console.Write("Digite a Data de Fabricação: ");
+                        Console.Write("Digite a Nova Data de Fabricação: ");
                         dataFabricacao = Console.ReadLine(); ;
 
-                        Console.Write("Digite a Fabricante do Equipamento: ");
+                        Console.Write("Digite a Nova Fabricante do Equipamento: ");
                         fabricante = Console.ReadLine();
 
                         nomeEquipamentos.RemoveAt(indexEscolhido);
@@ -282,6 +322,14 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
                         numeroSerieEquipamentos.Insert(indexEscolhido, numeroSerie);
                         dataFabricacaoEquipamentos.Insert(indexEscolhido, dataFabricacao);
                         fabricanteEquipamentos.Insert(indexEscolhido, fabricante);
+
+                        Console.Clear();
+
+                        VisualizarEquipamentos(idEquipamentos, nomeEquipamentos, precoEquipamentos, numeroSerieEquipamentos, dataFabricacaoEquipamentos, fabricanteEquipamentos);
+
+                        PulaLinha();
+                        MensagemColor($"Equipamento com o ID \"{idEscolhido}\" excluído com sucesso!", ConsoleColor.Green);
+
                         #endregion
                     }
 
@@ -297,12 +345,30 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
 
                         indexEscolhido = idEquipamentos.IndexOf(idEscolhido);
 
-                        idEquipamentos.RemoveAt(indexEscolhido);
-                        nomeEquipamentos.RemoveAt(indexEscolhido);
-                        precoEquipamentos.RemoveAt(indexEscolhido);
-                        numeroSerieEquipamentos.RemoveAt(indexEscolhido);
-                        dataFabricacaoEquipamentos.RemoveAt(indexEscolhido);
-                        fabricanteEquipamentos.RemoveAt(indexEscolhido);
+                        Console.Write("Você tem certeza que deseja excluir o Equipamento com o ID ");
+                        MensagemColor($"\"{idEscolhido}\"", ConsoleColor.Blue);
+                        Console.WriteLine("? (S/N)");
+
+                        string confirmacao = Console.ReadLine();
+
+                        if (confirmacao.ToUpper() == "S")
+                        {
+
+                            idEquipamentos.RemoveAt(indexEscolhido);
+                            nomeEquipamentos.RemoveAt(indexEscolhido);
+                            precoEquipamentos.RemoveAt(indexEscolhido);
+                            numeroSerieEquipamentos.RemoveAt(indexEscolhido);
+                            dataFabricacaoEquipamentos.RemoveAt(indexEscolhido);
+                            fabricanteEquipamentos.RemoveAt(indexEscolhido);
+
+                            Console.Clear();
+
+                            VisualizarEquipamentos(idEquipamentos, nomeEquipamentos, precoEquipamentos, numeroSerieEquipamentos, dataFabricacaoEquipamentos, fabricanteEquipamentos);
+
+                            PulaLinha();
+                            MensagemColor($"Equipamento com o ID \"{idEscolhido}\" excluído com sucesso!", ConsoleColor.Green);
+                        }
+
                         #endregion
                     }
                     else if (opcaoEscolhidaSubMenu.ToUpper() == "S")
@@ -318,28 +384,91 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
         private static void VisualizarChamados(ArrayList idChamados, ArrayList tituloChamados, ArrayList descricaoChamados, ArrayList equipamentoChamados, ArrayList dataAberturaChamados)
         {
             Console.Clear();
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("ID".PadRight(7) + "│");
+            Console.Write("Título".PadRight(40) + "│");
+            Console.Write("Descrição".PadRight(50) + "│");
+            Console.Write("Equipamento".PadRight(30) + "│");
+            Console.WriteLine("Data de Abertura".PadRight(20) + "│");
+            Console.WriteLine("".PadRight(152, '―'));
+            Console.ResetColor();
+
             for (int i = 0; i < idChamados.Count; i++)
             {
-                Console.Write(idChamados[i] + "\t");
-                Console.Write(tituloChamados[i] + "\t");
-                Console.Write(descricaoChamados[i] + "\t");
-                Console.Write(equipamentoChamados[i] + "\t");
-                Console.WriteLine(dataAberturaChamados[i] + "\t");
+                if (i % 2 == 0)
+                {
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                }
+                else
+                {
+                    Console.ResetColor();
+                }
+
+                string id = idChamados[i].ToString().PadRight(7);
+                string titulo = tituloChamados[i].ToString().PadRight(40);
+                string descricao = descricaoChamados[i].ToString().PadRight(50);
+                string equimamento = equipamentoChamados[i].ToString().PadRight(30);
+                string dataAbertura = dataAberturaChamados[i].ToString().PadRight(20);
+
+                Console.Write(id + "│");
+                Console.Write(titulo + "│");
+                Console.Write(descricao + "│");
+                Console.Write(equimamento + "│");
+                Console.WriteLine(dataAbertura + "│");
             }
+            Console.ResetColor();
         }
 
         private static void VisualizarEquipamentos(ArrayList idEquipamentos, ArrayList nomeEquipamentos, ArrayList precoEquipamentos, ArrayList numeroSerieEquipamentos, ArrayList dataFabricacaoEquipamentos, ArrayList fabricanteEquipamentos)
         {
             Console.Clear();
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("ID".PadRight(7) + "│");
+            Console.Write("Nome".PadRight(30) + "│");
+            Console.Write("Preço".PadRight(20) + "│");
+            Console.Write("N°Série".PadRight(20) + "│");
+            Console.Write("Data de Fabricação".PadRight(20) + "│");
+            Console.WriteLine("Fabricante".PadRight(30) + "│");
+            Console.WriteLine("".PadRight(133, '―'));
+            Console.ResetColor();
+
             for (int i = 0; i < idEquipamentos.Count; i++)
             {
-                Console.Write(idEquipamentos[i] + "\t");
-                Console.Write(nomeEquipamentos[i] + "\t");
-                Console.Write(precoEquipamentos[i] + "\t");
-                Console.Write(numeroSerieEquipamentos[i] + "\t");
-                Console.Write(dataFabricacaoEquipamentos[i] + "\t");
-                Console.WriteLine(fabricanteEquipamentos[i] + "\t");
+                if (i % 2 == 0)
+                {
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                }
+                else
+                {
+                    Console.ResetColor();
+                }
+
+                string id = idEquipamentos[i].ToString().PadRight(7);
+                string nome = nomeEquipamentos[i].ToString().PadRight(30);
+                string preco = precoEquipamentos[i].ToString().PadRight(20);
+                string numeroSerie = numeroSerieEquipamentos[i].ToString().PadRight(20);
+                string dataFabricacao = dataFabricacaoEquipamentos[i].ToString().PadRight(20);
+                string fabricante = fabricanteEquipamentos[i].ToString().PadRight(30);
+
+                Console.Write(id + "│");
+                Console.Write(nome + "│");
+                Console.Write(preco + "│");
+                Console.Write(numeroSerie + "│");
+                Console.Write(dataFabricacao + "│");
+                Console.WriteLine(fabricante + "│");
             }
+            Console.ResetColor();
+        }
+
+        static void MensagemColor(string mensagem, ConsoleColor cor)
+        {
+            Console.ForegroundColor = cor;
+            Console.Write(mensagem);
+            Console.ResetColor();
         }
 
         static string MenuPrincipal()
