@@ -4,27 +4,93 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
 {
     internal class Program
     {
+        static ArrayList idEquipamentos = new();
+        static ArrayList nomeEquipamentos = new();
+        static ArrayList precoEquipamentos = new();
+        static ArrayList numeroSerieEquipamentos = new();
+        static ArrayList dataFabricacaoEquipamentos = new();
+        static ArrayList fabricanteEquipamentos = new();
+
+        static ArrayList idChamados = new();
+        static ArrayList tituloChamados = new();
+        static ArrayList descricaoChamados = new();
+        static ArrayList equipamentoChamados = new();
+        static ArrayList dataAberturaChamados = new();
+        static ArrayList diasEmAbertoChamados = new();
+
         static void Main(string[] args)
         {
-
-            #region Equipamentos
-            ArrayList idEquipamentos = new ArrayList();
-            ArrayList nomeEquipamentos = new ArrayList();
-            ArrayList precoEquipamentos = new ArrayList();
-            ArrayList numeroSerieEquipamentos = new ArrayList();
-            ArrayList dataFabricacaoEquipamentos = new ArrayList();
-            ArrayList fabricanteEquipamentos = new ArrayList();
-
             int idEquipamentosAdd = 5;
-            string nome;
-            string preco;
-            string numeroSerie;
-            string dataFabricacao;
-            string fabricante;
+            int idChamadosAdd = 5;
 
-            int idEscolhido;
-            int indexEscolhido;
+            ListaEquipamentosPreDefinida();
 
+            ListaChamadosPreDefinida();
+
+            while (true)
+            {
+                string opcaoEscolhidaMenu;
+                string opcaoEscolhidaSubMenu;
+
+                opcaoEscolhidaMenu = MostrarMenuPrincipal();
+
+                if (opcaoEscolhidaMenu.ToUpper() == "S")
+                    break;
+
+                while (opcaoEscolhidaMenu == "1")
+                {
+                    Console.Clear();
+
+                    opcaoEscolhidaSubMenu = MostrarSubMenu("Equipamento");
+
+                    if (opcaoEscolhidaSubMenu == "1")
+                    {
+                        VisualizarEquipamentos();
+                        Console.ReadLine();
+                    }
+
+                    else if (opcaoEscolhidaSubMenu == "2")
+                        AdicionarEquipamentos(ref idEquipamentosAdd);
+
+                    else if (opcaoEscolhidaSubMenu == "3")
+                        EditarEquipamentos();
+
+                    else if (opcaoEscolhidaSubMenu == "4")
+                        ExcluirEquipamentos();
+
+                    else if (opcaoEscolhidaSubMenu.ToUpper() == "S")
+                        break;
+                }
+
+                while (opcaoEscolhidaMenu == "2")
+                {
+                    Console.Clear();
+
+                    opcaoEscolhidaSubMenu = MostrarSubMenu("Chamado");
+
+                    if (opcaoEscolhidaSubMenu == "1")
+                    {
+                        VisualizarChamados();
+                        Console.ReadLine();
+                    }
+
+                    else if (opcaoEscolhidaSubMenu == "2")
+                        AdicionarChamados(ref idChamadosAdd);
+
+                    else if (opcaoEscolhidaSubMenu == "3")
+                        EditarChamados();
+
+                    else if (opcaoEscolhidaSubMenu == "4")
+                        ExcluirChamados();
+
+                    else if (opcaoEscolhidaSubMenu.ToUpper() == "S")
+                        break;
+                }
+            }
+        }
+
+        static void ListaEquipamentosPreDefinida()
+        {
             idEquipamentos.Add(1);
             nomeEquipamentos.Add("Galaxy Y");
             precoEquipamentos.Add("750");
@@ -52,23 +118,12 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
             numeroSerieEquipamentos.Add("14587");
             dataFabricacaoEquipamentos.Add("12/06/2022");
             fabricanteEquipamentos.Add("Britania");
-            #endregion
+        }
 
-            #region Chamados
-            ArrayList idChamados = new ArrayList();
-            ArrayList tituloChamados = new ArrayList();
-            ArrayList descricaoChamados = new ArrayList();
-            ArrayList equipamentoChamados = new ArrayList();
-            ArrayList dataAberturaChamados = new ArrayList();
-            ArrayList diasEmAbertoChamados = new ArrayList();
-
+        static void ListaChamadosPreDefinida()
+        {
             DateTime dataAtual = DateTime.Now;
             TimeSpan diasEmAberto;
-
-            int idChamadosAdd = 5;
-            string titulo;
-            string descricao;
-            string equipamento;
             DateTime dataAbertura;
 
             idChamados.Add(1);
@@ -106,391 +161,51 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
             dataAberturaChamados.Add("22/03/2023");
             diasEmAberto = dataAtual - dataAbertura;
             diasEmAbertoChamados.Add(Math.Round(diasEmAberto.TotalDays));
-            #endregion
-
-            while (true)
-            {
-                string opcaoEscolhidaMenu;
-                string opcaoEscolhidaSubMenu;
-
-                opcaoEscolhidaMenu = MenuPrincipal();
-
-                if (opcaoEscolhidaMenu.ToUpper() == "S")
-                    break;
-
-                while (opcaoEscolhidaMenu == "1")
-                {
-                    Console.Clear();
-
-                    opcaoEscolhidaSubMenu = SubMenu("Equipamento");
-
-                    if (opcaoEscolhidaSubMenu == "1")
-                    {
-                        VisualizarEquipamentos(idEquipamentos, nomeEquipamentos, precoEquipamentos, numeroSerieEquipamentos, dataFabricacaoEquipamentos, fabricanteEquipamentos);
-                        Console.ReadLine();
-                    }
-
-                    else if (opcaoEscolhidaSubMenu == "2")
-                    {
-                        #region Add Equipamentos
-                        VisualizarEquipamentos(idEquipamentos, nomeEquipamentos, precoEquipamentos, numeroSerieEquipamentos, dataFabricacaoEquipamentos, fabricanteEquipamentos);
-                        PulaLinha();
-
-                        Console.Write("Digite o Nome do Equipamento: ");
-                        nome = ValidaNomeMin6Caracteres("Digite o Nome do Equipamento: ");
-
-                        Console.Write("Digite o Preço de Aquisição: ");
-                        preco = ValidaNumero("Digite o Preço de Aquisição: ").ToString();
-
-                        Console.Write("Digite o N°Série: ");
-                        numeroSerie = Console.ReadLine();
-
-                        Console.Write("Digite a Data de Fabricação: ");
-                        dataFabricacao = Console.ReadLine();
-
-                        Console.Write("Digite a Fabricante do Equipamento: ");
-                        fabricante = Console.ReadLine();
-
-                        idEquipamentos.Add(idEquipamentosAdd);
-                        nomeEquipamentos.Add(nome);
-                        precoEquipamentos.Add(preco);
-                        numeroSerieEquipamentos.Add(numeroSerie);
-                        dataFabricacaoEquipamentos.Add(dataFabricacao);
-                        fabricanteEquipamentos.Add(fabricante);
-
-                        idEquipamentosAdd++;
-
-                        Console.Clear();
-
-                        VisualizarEquipamentos(idEquipamentos, nomeEquipamentos, precoEquipamentos, numeroSerieEquipamentos, dataFabricacaoEquipamentos, fabricanteEquipamentos);
-
-                        PulaLinha();
-                        MensagemColor($"Equipamento \"{nome}\" adicionado com sucesso!", ConsoleColor.Green);
-
-                        Console.ReadLine();
-
-                        #endregion
-                    }
-
-                    else if (opcaoEscolhidaSubMenu == "3")
-                    {
-                        #region Editar Equipamentos
-                        VisualizarEquipamentos(idEquipamentos, nomeEquipamentos, precoEquipamentos, numeroSerieEquipamentos, dataFabricacaoEquipamentos, fabricanteEquipamentos);
-                        PulaLinha();
-
-                        Console.Write("Digite o ID do Equipamento que deseja editar: ");
-
-                        idEscolhido = ValidaIndex("Digite o ID do Equipamento que deseja editar: ", idEquipamentos);
-
-                        indexEscolhido = idEquipamentos.IndexOf(idEscolhido);
-
-                        Console.Write("Digite o Novo Nome do Equipamento: ");
-                        nome = ValidaNomeMin6Caracteres("Digite o Novo Nome do Equipamento: ");
-
-                        Console.Write("Digite o Novo Preço de Aquisição: ");
-                        preco = ValidaNumero("Digite o Novo Preço de Aquisição: ").ToString();
-
-                        Console.Write("Digite o Novo N°Série: ");
-                        numeroSerie = Console.ReadLine();
-
-                        Console.Write("Digite a Nova Data de Fabricação: ");
-                        dataFabricacao = Console.ReadLine(); ;
-
-                        Console.Write("Digite a Nova Fabricante do Equipamento: ");
-                        fabricante = Console.ReadLine();
-
-                        nomeEquipamentos.RemoveAt(indexEscolhido);
-                        precoEquipamentos.RemoveAt(indexEscolhido);
-                        numeroSerieEquipamentos.RemoveAt(indexEscolhido);
-                        dataFabricacaoEquipamentos.RemoveAt(indexEscolhido);
-                        fabricanteEquipamentos.RemoveAt(indexEscolhido);
-
-                        nomeEquipamentos.Insert(indexEscolhido, nome);
-                        precoEquipamentos.Insert(indexEscolhido, preco);
-                        numeroSerieEquipamentos.Insert(indexEscolhido, numeroSerie);
-                        dataFabricacaoEquipamentos.Insert(indexEscolhido, dataFabricacao);
-                        fabricanteEquipamentos.Insert(indexEscolhido, fabricante);
-
-                        Console.Clear();
-
-                        VisualizarEquipamentos(idEquipamentos, nomeEquipamentos, precoEquipamentos, numeroSerieEquipamentos, dataFabricacaoEquipamentos, fabricanteEquipamentos);
-
-                        PulaLinha();
-                        MensagemColor($"Equipamento com o ID \"{idEscolhido}\" editado com sucesso!", ConsoleColor.Green);
-
-                        Console.ReadLine();
-
-                        #endregion
-                    }
-
-                    else if (opcaoEscolhidaSubMenu == "4")
-                    {
-                        #region Excluir Equipamentos
-                        VisualizarEquipamentos(idEquipamentos, nomeEquipamentos, precoEquipamentos, numeroSerieEquipamentos, dataFabricacaoEquipamentos, fabricanteEquipamentos);
-                        PulaLinha();
-
-                        Console.Write("Digite o ID do Equipamento que deseja excluir: ");
-
-                        idEscolhido = ValidaIndex("Digite o ID do Equipamento que deseja excluir: ", idEquipamentos);
-
-                        indexEscolhido = idEquipamentos.IndexOf(idEscolhido);
-
-                        Console.Write("Você tem certeza que deseja excluir o Equipamento com o ID ");
-                        MensagemColor($"\"{idEscolhido}\"", ConsoleColor.Blue);
-                        Console.WriteLine("? (S/N)");
-
-                        string confirmacao = Console.ReadLine();
-
-                        if (confirmacao.ToUpper() == "S")
-                        {
-
-                            idEquipamentos.RemoveAt(indexEscolhido);
-                            nomeEquipamentos.RemoveAt(indexEscolhido);
-                            precoEquipamentos.RemoveAt(indexEscolhido);
-                            numeroSerieEquipamentos.RemoveAt(indexEscolhido);
-                            dataFabricacaoEquipamentos.RemoveAt(indexEscolhido);
-                            fabricanteEquipamentos.RemoveAt(indexEscolhido);
-
-                            Console.Clear();
-
-                            VisualizarEquipamentos(idEquipamentos, nomeEquipamentos, precoEquipamentos, numeroSerieEquipamentos, dataFabricacaoEquipamentos, fabricanteEquipamentos);
-
-                            PulaLinha();
-                            MensagemColor($"Equipamento com o ID \"{idEscolhido}\" excluído com sucesso!", ConsoleColor.Green);
-                        }
-                        else
-                        {
-                            PulaLinha();
-                            Console.WriteLine("Retornando ao Menu . . .");
-                        }
-
-                        Console.ReadLine();
-
-                        #endregion
-                    }
-                    else if (opcaoEscolhidaSubMenu.ToUpper() == "S")
-                    {
-                        break;
-                    }
-                }
-
-                while (opcaoEscolhidaMenu == "2")
-                {
-                    Console.Clear();
-
-                    opcaoEscolhidaSubMenu = SubMenu("Chamado");
-
-                    if (opcaoEscolhidaSubMenu == "1")
-                    {
-                        VisualizarChamados(idChamados, tituloChamados, descricaoChamados, equipamentoChamados, dataAberturaChamados, diasEmAbertoChamados);
-                        Console.ReadLine();
-                    }
-
-                    else if (opcaoEscolhidaSubMenu == "2")
-                    {
-                        #region Add Chamado
-
-                        dataAtual = DateTime.Now;
-
-                        VisualizarChamados(idChamados, tituloChamados, descricaoChamados, equipamentoChamados, dataAberturaChamados, diasEmAbertoChamados);
-                        PulaLinha();
-
-                        Console.Write("Digite o Título do Chamado: ");
-                        titulo = Console.ReadLine();
-
-                        Console.Write("Digite a Descrição: ");
-                        descricao = Console.ReadLine();
-
-                        Console.Write("Digite o Equipamento: ");
-                        equipamento = Console.ReadLine();
-
-                        Console.Write("Digite a Data de Abertura: ");
-                        dataAbertura = ValidaData("Digite a Data de Abertura: ");
-
-                        diasEmAberto = dataAtual - dataAbertura;
-
-                        idChamados.Add(idChamadosAdd);
-                        tituloChamados.Add(titulo);
-                        descricaoChamados.Add(descricao);
-                        equipamentoChamados.Add(equipamento);
-                        dataAberturaChamados.Add(dataAbertura.ToString("d"));
-                        diasEmAbertoChamados.Add(Math.Round(diasEmAberto.TotalDays));
-
-                        idChamadosAdd++;
-
-                        VisualizarChamados(idChamados, tituloChamados, descricaoChamados, equipamentoChamados, dataAberturaChamados, diasEmAbertoChamados);
-
-                        PulaLinha();
-                        MensagemColor($"Chamado \"{titulo}\" adicionado com sucesso!", ConsoleColor.Green);
-
-                        Console.ReadLine();
-
-                        #endregion
-                    }
-
-                    else if (opcaoEscolhidaSubMenu == "3")
-                    {
-                        #region Editar Chamados
-
-                        dataAtual = DateTime.Now;
-
-                        VisualizarChamados(idChamados, tituloChamados, descricaoChamados, equipamentoChamados, dataAberturaChamados, diasEmAbertoChamados);
-                        PulaLinha();
-
-                        Console.Write("Digite o ID do Equipamento que deseja editar: ");
-
-                        idEscolhido = ValidaIndex("Digite o ID do Chamado que deseja editar: ", idChamados);
-
-                        indexEscolhido = idEquipamentos.IndexOf(idEscolhido);
-
-                        Console.Write("Digite o Novo Título do Chamado: ");
-                        titulo = Console.ReadLine();
-
-                        Console.Write("Digite a Nova Descrição: ");
-                        descricao = Console.ReadLine();
-
-                        Console.Write("Digite o Novo Equipamento: ");
-                        equipamento = Console.ReadLine();
-
-                        Console.Write("Digite a Nova Data de Abertura: ");
-                        dataAbertura = ValidaData("Digite a Nova Data de Abertura: ");
-
-                        diasEmAberto = dataAtual - dataAbertura;
-
-                        tituloChamados.RemoveAt(indexEscolhido);
-                        descricaoChamados.RemoveAt(indexEscolhido);
-                        equipamentoChamados.RemoveAt(indexEscolhido);
-                        dataAberturaChamados.RemoveAt(indexEscolhido);
-                        diasEmAbertoChamados.RemoveAt(indexEscolhido);
-
-                        tituloChamados.Insert(indexEscolhido, titulo);
-                        descricaoChamados.Insert(indexEscolhido, descricao);
-                        equipamentoChamados.Insert(indexEscolhido, equipamento);
-                        dataAberturaChamados.Insert(indexEscolhido, dataAbertura.ToString("d"));
-                        diasEmAbertoChamados.Insert(indexEscolhido, Math.Round(diasEmAberto.TotalDays));
-
-                        Console.Clear();
-
-                        VisualizarChamados(idChamados, tituloChamados, descricaoChamados, equipamentoChamados, dataAberturaChamados, diasEmAbertoChamados);
-
-                        PulaLinha();
-                        MensagemColor($"Chamado com o ID \"{idEscolhido}\" editado com sucesso!", ConsoleColor.Green);
-
-                        Console.ReadLine();
-
-                        #endregion
-                    }
-
-                    else if (opcaoEscolhidaSubMenu == "4")
-                    {
-                        #region Excluir Chamados
-                        VisualizarChamados(idChamados, tituloChamados, descricaoChamados, equipamentoChamados, dataAberturaChamados, diasEmAbertoChamados);
-                        PulaLinha();
-
-                        Console.Write("Digite o ID do Chamado que deseja excluir: ");
-
-                        idEscolhido = ValidaIndex("Digite o ID do Chamado que deseja excluir: ", idChamados);
-
-                        indexEscolhido = idChamados.IndexOf(idEscolhido);
-
-                        Console.Write("Você tem certeza que deseja excluir o Chamado com o ID ");
-                        MensagemColor($"\"{idEscolhido}\"", ConsoleColor.Blue);
-                        Console.WriteLine("? (S/N)");
-
-                        string confirmacao = Console.ReadLine();
-
-                        if (confirmacao.ToUpper() == "S")
-                        {
-
-                            idChamados.RemoveAt(indexEscolhido);
-                            tituloChamados.RemoveAt(indexEscolhido);
-                            descricaoChamados.RemoveAt(indexEscolhido);
-                            equipamentoChamados.RemoveAt(indexEscolhido);
-                            dataAberturaChamados.RemoveAt(indexEscolhido);
-                            diasEmAbertoChamados.RemoveAt(indexEscolhido);
-
-                            Console.Clear();
-
-                            VisualizarChamados(idChamados, tituloChamados, descricaoChamados, equipamentoChamados, dataAberturaChamados, diasEmAbertoChamados);
-
-                            PulaLinha();
-                            MensagemColor($"Chamado com o ID \"{idEscolhido}\" editado com sucesso!", ConsoleColor.Green);
-                        }
-                        else
-                        {
-                            PulaLinha();
-                            Console.WriteLine("Retornando ao Menu . . .");
-                        }
-
-                        Console.ReadLine();
-
-                        #endregion
-                    }
-                    else if (opcaoEscolhidaSubMenu.ToUpper() == "S")
-                    {
-                        break;
-                    }
-                }
-            }
         }
 
-        private static void VisualizarChamados(ArrayList idChamados, ArrayList tituloChamados, ArrayList descricaoChamados, ArrayList equipamentoChamados, ArrayList dataAberturaChamados, ArrayList diasEmAbertoChamados)
+        static string MostrarMenuPrincipal()
         {
             Console.Clear();
 
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write("ID".PadRight(8) + "│");
-            Console.Write("Título".PadRight(40) + "│");
-            Console.Write("Descrição".PadRight(50) + "│");
-            Console.Write("Equipamento".PadRight(30) + "│");
-            Console.Write("Data de Abertura".PadRight(20) + "│");
-            Console.WriteLine("Dias em Aberto".PadRight(15) + "│");
-            Console.WriteLine("".PadRight(169, '―'));
-            Console.ResetColor();
+            Console.WriteLine("Gestão de Equipamentos");
+            PulaLinha();
+            Console.WriteLine("(1)Cadastro de Equipamentos");
+            Console.WriteLine("(2)Controle de Chamados");
+            PulaLinha();
+            Console.WriteLine("(S)Sair");
+            PulaLinha();
+            Console.Write("Escolha: ");
 
-            for (int i = 0; i < idChamados.Count; i++)
-            {
-                if (i % 2 == 0)
-                {
-                    Console.BackgroundColor = ConsoleColor.DarkGray;
-                    Console.ForegroundColor = ConsoleColor.Black;
-                }
-                else
-                {
-                    Console.ResetColor();
-                }
+            string entrada = Console.ReadLine();
 
-                string id = idChamados[i].ToString().PadRight(7);
-                string titulo = tituloChamados[i].ToString().PadRight(40);
-                string descricao = descricaoChamados[i].ToString().PadRight(50);
-                string equimamento = equipamentoChamados[i].ToString().PadRight(30);
-                string dataAbertura = dataAberturaChamados[i].ToString().PadRight(20);
-                string diasEmAberto = diasEmAbertoChamados[i].ToString().PadRight(15);
-
-
-                Console.Write("#" + id + "│");
-                Console.Write(titulo + "│");
-                Console.Write(descricao + "│");
-                Console.Write(equimamento + "│");
-                Console.Write(dataAbertura + "│");
-                Console.WriteLine(diasEmAberto + "│");
-            }
-            Console.ResetColor();
+            return entrada;
         }
 
-        private static void VisualizarEquipamentos(ArrayList idEquipamentos, ArrayList nomeEquipamentos, ArrayList precoEquipamentos, ArrayList numeroSerieEquipamentos, ArrayList dataFabricacaoEquipamentos, ArrayList fabricanteEquipamentos)
+        static string MostrarSubMenu(string tipo)
         {
             Console.Clear();
 
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write("ID".PadRight(8) + "│");
-            Console.Write("Nome".PadRight(30) + "│");
-            Console.Write("Preço".PadRight(22) + "│");
-            Console.Write("N°Série".PadRight(20) + "│");
-            Console.Write("Data de Fabricação".PadRight(20) + "│");
-            Console.WriteLine("Fabricante".PadRight(30) + "│");
-            Console.WriteLine("".PadRight(133, '―'));
-            Console.ResetColor();
+            Console.WriteLine($"Cadastro de {tipo}s");
+            PulaLinha();
+            Console.WriteLine($"(1)Visualizar {tipo}");
+            Console.WriteLine($"(2)Adicionar novo {tipo}s");
+            Console.WriteLine($"(3)Editar {tipo}s");
+            Console.WriteLine($"(4)Excluir um {tipo}");
+            PulaLinha();
+            Console.WriteLine("(S)Sair");
+            PulaLinha();
+
+            Console.Write("Escolha: ");
+            string entrada = Console.ReadLine();
+
+            return entrada;
+        }
+
+
+
+        static void VisualizarEquipamentos()
+        {
+            MostrarTitulosListaEquipamentos();
 
             for (int i = 0; i < idEquipamentos.Count; i++)
             {
@@ -521,49 +236,434 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
             Console.ResetColor();
         }
 
+        static void AdicionarEquipamentos(ref int idEquipamentosAdd)
+        {
+            string nome;
+            string preco;
+            string numeroSerie;
+            DateTime dataFabricacao;
+            string fabricante;
+
+            VisualizarEquipamentos();
+            PulaLinha();
+
+            Console.Write("Digite o Nome do Equipamento: ");
+            nome = ValidaNomeMin6Caracteres("Digite o Nome do Equipamento: ");
+
+            Console.Write("Digite o Preço de Aquisição: ");
+            preco = ValidaNumero("Digite o Preço de Aquisição: ").ToString();
+
+            Console.Write("Digite o N°Série: ");
+            numeroSerie = Console.ReadLine();
+
+            Console.Write("Digite a Data de Fabricação: ");
+            dataFabricacao = ValidaData("Digite a Data de Fabricação: ");
+
+            Console.Write("Digite a Fabricante do Equipamento: ");
+            fabricante = Console.ReadLine();
+
+            idEquipamentos.Add(idEquipamentosAdd);
+            nomeEquipamentos.Add(nome);
+            precoEquipamentos.Add(preco);
+            numeroSerieEquipamentos.Add(numeroSerie);
+            dataFabricacaoEquipamentos.Add(dataFabricacao.ToString("d"));
+            fabricanteEquipamentos.Add(fabricante);
+
+            idEquipamentosAdd++;
+
+            Console.Clear();
+
+            VisualizarEquipamentos();
+
+            PulaLinha();
+            MensagemColor($"Equipamento \"{nome}\" adicionado com sucesso!", ConsoleColor.Green);
+
+            Console.ReadLine();
+        }
+
+        static void EditarEquipamentos()
+        {
+            string nome;
+            string preco;
+            string numeroSerie;
+            DateTime dataFabricacao;
+            string fabricante;
+
+            int idEscolhido;
+            int indexEscolhido;
+
+            VisualizarEquipamentos();
+            PulaLinha();
+
+            if (VerificaSeListaEstaVazia("EQUIPAMENTO"))
+                return;
+
+            Console.Write("Digite o ID do Equipamento que deseja editar: ");
+
+            idEscolhido = ValidaIndex("Digite o ID do Equipamento que deseja editar: ", idEquipamentos);
+
+            indexEscolhido = idEquipamentos.IndexOf(idEscolhido);
+
+            Console.Write("Digite o Novo Nome do Equipamento: ");
+            nome = ValidaNomeMin6Caracteres("Digite o Novo Nome do Equipamento: ");
+
+            Console.Write("Digite o Novo Preço de Aquisição: ");
+            preco = ValidaNumero("Digite o Novo Preço de Aquisição: ").ToString();
+
+            Console.Write("Digite o Novo N°Série: ");
+            numeroSerie = Console.ReadLine();
+
+            Console.Write("Digite a Nova Data de Fabricação: ");
+            dataFabricacao = ValidaData("Digite a Nova Data de Fabricação: ");
+
+            Console.Write("Digite a Nova Fabricante do Equipamento: ");
+            fabricante = Console.ReadLine();
+
+            EditaEquipamentoEscolhido(nome, preco, numeroSerie, dataFabricacao, fabricante, indexEscolhido);
+
+            Console.Clear();
+
+            VisualizarEquipamentos();
+
+            PulaLinha();
+            MensagemColor($"Equipamento com o ID \"{idEscolhido}\" editado com sucesso!", ConsoleColor.Green);
+
+            Console.ReadLine();
+        }
+
+        static void EditaEquipamentoEscolhido(string nome, string preco, string numeroSerie, DateTime dataFabricacao, string fabricante, int indexEscolhido)
+        {
+            nomeEquipamentos[indexEscolhido] = nome;
+            precoEquipamentos[indexEscolhido] = preco;
+            numeroSerieEquipamentos[indexEscolhido] = numeroSerie;
+            dataFabricacaoEquipamentos[indexEscolhido] = dataFabricacao.ToString("d");
+            fabricanteEquipamentos[indexEscolhido] = fabricante;
+        }
+
+        static void ExcluirEquipamentos()
+        {
+            int idEscolhido;
+            int indexEscolhido;
+
+            VisualizarEquipamentos();
+            PulaLinha();
+
+            if (VerificaSeListaEstaVazia("EQUIPAMENTO"))
+                return;
+
+            Console.Write("Digite o ID do Equipamento que deseja excluir: ");
+
+            idEscolhido = ValidaIndex("Digite o ID do Equipamento que deseja excluir: ", idEquipamentos);
+
+            indexEscolhido = idEquipamentos.IndexOf(idEscolhido);
+
+            ConfirmarParaExcluirEquipamento(idEscolhido, indexEscolhido);
+
+            Console.ReadLine();
+        }
+
+        static void ConfirmarParaExcluirEquipamento(int idEscolhido, int indexEscolhido)
+        {
+            while (true)
+            {
+                Console.Write("Você tem certeza que deseja excluir o Equipamento com o ID ");
+                MensagemColor($"\"{idEscolhido}\"", ConsoleColor.Blue);
+                Console.WriteLine("? (S/N)");
+
+                string confirmacao = Console.ReadLine();
+
+                if (confirmacao.ToUpper() == "S")
+                {
+                    RemoveEquipamentoEscolhido(indexEscolhido);
+
+                    Console.Clear();
+
+                    VisualizarEquipamentos();
+
+                    PulaLinha();
+                    MensagemColor($"Equipamento com o ID \"{idEscolhido}\" excluído com sucesso!", ConsoleColor.Green);
+                    break;
+                }
+                else if (confirmacao.ToUpper() == "N")
+                {
+                    PulaLinha();
+                    Console.WriteLine("Retornando ao Menu . . .");
+                    break;
+                }
+            }
+        }
+
+        static void RemoveEquipamentoEscolhido(int indexEscolhido)
+        {
+            idEquipamentos.RemoveAt(indexEscolhido);
+            nomeEquipamentos.RemoveAt(indexEscolhido);
+            precoEquipamentos.RemoveAt(indexEscolhido);
+            numeroSerieEquipamentos.RemoveAt(indexEscolhido);
+            dataFabricacaoEquipamentos.RemoveAt(indexEscolhido);
+            fabricanteEquipamentos.RemoveAt(indexEscolhido);
+        }
+
+
+
+        static void VisualizarChamados()
+        {
+            MostrarTitulosListaChamados();
+
+            for (int i = 0; i < idChamados.Count; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                }
+                else
+                {
+                    Console.ResetColor();
+                }
+
+                string id = idChamados[i].ToString().PadRight(7);
+                string titulo = tituloChamados[i].ToString().PadRight(40);
+                string descricao = descricaoChamados[i].ToString().PadRight(50);
+                string equimamento = equipamentoChamados[i].ToString().PadRight(30);
+                string dataAbertura = dataAberturaChamados[i].ToString().PadRight(20);
+                string diasEmAberto = diasEmAbertoChamados[i].ToString().PadRight(15);
+
+                Console.Write("#" + id + "│");
+                Console.Write(titulo + "│");
+                Console.Write(descricao + "│");
+                Console.Write(equimamento + "│");
+                Console.Write(dataAbertura + "│");
+                Console.WriteLine(diasEmAberto + "│");
+            }
+            Console.ResetColor();
+        }
+
+        static void AdicionarChamados(ref int idChamadosAdd)
+        {
+            DateTime dataAtual = DateTime.Now;
+            TimeSpan diasEmAberto;
+            DateTime dataAbertura;
+
+            string titulo;
+            string descricao;
+            string equipamento;
+
+            VisualizarChamados();
+            PulaLinha();
+
+            Console.Write("Digite o Título do Chamado: ");
+            titulo = Console.ReadLine();
+
+            Console.Write("Digite a Descrição: ");
+            descricao = Console.ReadLine();
+
+            Console.Write("Digite o Equipamento: ");
+            equipamento = Console.ReadLine();
+
+            Console.Write("Digite a Data de Abertura: ");
+            dataAbertura = ValidaData("Digite a Data de Abertura: ");
+
+            diasEmAberto = dataAtual - dataAbertura;
+
+            idChamados.Add(idChamadosAdd);
+            tituloChamados.Add(titulo);
+            descricaoChamados.Add(descricao);
+            equipamentoChamados.Add(equipamento);
+            dataAberturaChamados.Add(dataAbertura.ToString("d"));
+            diasEmAbertoChamados.Add(Math.Round(diasEmAberto.TotalDays));
+
+            idChamadosAdd++;
+
+            VisualizarChamados();
+
+            PulaLinha();
+            MensagemColor($"Chamado \"{titulo}\" adicionado com sucesso!", ConsoleColor.Green);
+
+            Console.ReadLine();
+        }
+
+        static void EditarChamados()
+        {
+            DateTime dataAtual = DateTime.Now;
+            TimeSpan diasEmAberto;
+            DateTime dataAbertura;
+
+            string titulo;
+            string descricao;
+            string equipamento;
+
+            int idEscolhido;
+            int indexEscolhido;
+
+            VisualizarChamados();
+            PulaLinha();
+
+            if (VerificaSeListaEstaVazia("CHAMADO"))
+                return;
+
+            Console.Write("Digite o ID do Equipamento que deseja editar: ");
+
+            idEscolhido = ValidaIndex("Digite o ID do Chamado que deseja editar: ", idChamados);
+
+            indexEscolhido = idChamados.IndexOf(idEscolhido);
+
+            Console.Write("Digite o Novo Título do Chamado: ");
+            titulo = Console.ReadLine();
+
+            Console.Write("Digite a Nova Descrição: ");
+            descricao = Console.ReadLine();
+
+            Console.Write("Digite o Novo Equipamento: ");
+            equipamento = Console.ReadLine();
+
+            Console.Write("Digite a Nova Data de Abertura: ");
+            dataAbertura = ValidaData("Digite a Nova Data de Abertura: ");
+
+            diasEmAberto = dataAtual - dataAbertura;
+
+            EditaChamadoEscolhido(diasEmAberto, dataAbertura, titulo, descricao, equipamento, indexEscolhido);
+
+            Console.Clear();
+
+            VisualizarChamados();
+
+            PulaLinha();
+            MensagemColor($"Chamado com o ID \"{idEscolhido}\" editado com sucesso!", ConsoleColor.Green);
+
+            Console.ReadLine();
+        }
+
+        static void EditaChamadoEscolhido(TimeSpan diasEmAberto, DateTime dataAbertura, string titulo, string descricao, string equipamento, int indexEscolhido)
+        {
+            tituloChamados[indexEscolhido] = titulo;
+            descricaoChamados[indexEscolhido] = descricao;
+            equipamentoChamados[indexEscolhido] = equipamento;
+            dataAberturaChamados[indexEscolhido] = dataAbertura.ToString("d");
+            diasEmAbertoChamados[indexEscolhido] = Math.Round(diasEmAberto.TotalDays);
+        }
+
+        static void ExcluirChamados()
+        {
+            DateTime dataAtual = DateTime.Now;
+            TimeSpan diasEmAberto;
+            DateTime dataAbertura;
+
+            int idEscolhido;
+            int indexEscolhido;
+
+            VisualizarChamados();
+            PulaLinha();
+
+            if (VerificaSeListaEstaVazia("CHAMADO"))
+                return;
+
+            Console.Write("Digite o ID do Chamado que deseja excluir: ");
+
+            idEscolhido = ValidaIndex("Digite o ID do Chamado que deseja excluir: ", idChamados);
+
+            indexEscolhido = idChamados.IndexOf(idEscolhido);
+
+            ConfirmarParaExcluirChamado(idEscolhido, indexEscolhido);
+
+            Console.ReadLine();
+        }
+
+        static void ConfirmarParaExcluirChamado(int idEscolhido, int indexEscolhido)
+        {
+            while (true)
+            {
+                Console.Write("Você tem certeza que deseja excluir o Chamado com o ID ");
+                MensagemColor($"\"{idEscolhido}\"", ConsoleColor.Blue);
+                Console.WriteLine("? (S/N)");
+
+                string confirmacao = Console.ReadLine();
+
+                if (confirmacao.ToUpper() == "S")
+                {
+
+                    RemoveChamadoEscolhido(indexEscolhido);
+
+                    Console.Clear();
+
+                    VisualizarChamados();
+
+                    PulaLinha();
+                    MensagemColor($"Chamado com o ID \"{idEscolhido}\" excluído com sucesso!", ConsoleColor.Green);
+                    break;
+                }
+                else if (confirmacao.ToUpper() == "N")
+                {
+                    PulaLinha();
+                    Console.WriteLine("Retornando ao Menu . . .");
+                    break;
+                }
+            }
+        }
+
+        static void RemoveChamadoEscolhido(int indexEscolhido)
+        {
+            idChamados.RemoveAt(indexEscolhido);
+            tituloChamados.RemoveAt(indexEscolhido);
+            descricaoChamados.RemoveAt(indexEscolhido);
+            equipamentoChamados.RemoveAt(indexEscolhido);
+            dataAberturaChamados.RemoveAt(indexEscolhido);
+            diasEmAbertoChamados.RemoveAt(indexEscolhido);
+        }
+
+
+
+        private static bool VerificaSeListaEstaVazia(string tipo)
+        {
+            if (idEquipamentos.Count == 0 && tipo == "EQUIPAMENTO")
+            {
+                MensagemColor("Não há equipamentos registrados no momento", ConsoleColor.DarkYellow);
+                Console.ReadLine();
+                return true;
+            }
+            else if (idChamados.Count == 0 && tipo == "CHAMADO")
+            {
+                MensagemColor("Não há Chamados registrados no momento", ConsoleColor.DarkYellow);
+                Console.ReadLine();
+                return true;
+            }
+            return false;
+        }
+
+        static void MostrarTitulosListaEquipamentos()
+        {
+            Console.Clear();
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("ID".PadRight(8) + "│");
+            Console.Write("Nome".PadRight(30) + "│");
+            Console.Write("Preço".PadRight(22) + "│");
+            Console.Write("N°Série".PadRight(20) + "│");
+            Console.Write("Data de Fabricação".PadRight(20) + "│");
+            Console.WriteLine("Fabricante".PadRight(30) + "│");
+            Console.WriteLine("".PadRight(133, '―'));
+            Console.ResetColor();
+        }
+
+        static void MostrarTitulosListaChamados()
+        {
+            Console.Clear();
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("ID".PadRight(8) + "│");
+            Console.Write("Título".PadRight(40) + "│");
+            Console.Write("Descrição".PadRight(50) + "│");
+            Console.Write("Equipamento".PadRight(30) + "│");
+            Console.Write("Data de Abertura".PadRight(20) + "│");
+            Console.WriteLine("Dias em Aberto".PadRight(15) + "│");
+            Console.WriteLine("".PadRight(169, '―'));
+            Console.ResetColor();
+        }
+
         static void MensagemColor(string mensagem, ConsoleColor cor)
         {
             Console.ForegroundColor = cor;
             Console.Write(mensagem);
             Console.ResetColor();
-        }
-
-        static string MenuPrincipal()
-        {
-            Console.Clear();
-
-            Console.WriteLine("Gestão de Equipamentos");
-            PulaLinha();
-            Console.WriteLine("(1)Cadastro de Equipamentos");
-            Console.WriteLine("(2)Controle de Chamados");
-            PulaLinha();
-            Console.WriteLine("(S)Sair");
-            PulaLinha();
-            Console.Write("Escolha: ");
-
-            string entrada = Console.ReadLine();
-
-            return entrada;
-        }
-
-        static string SubMenu(string tipo)
-        {
-            Console.Clear();
-
-            Console.WriteLine($"Cadastro de {tipo}s");
-            PulaLinha();
-            Console.WriteLine($"(1)Visualizar {tipo}");
-            Console.WriteLine($"(2)Inserir novo {tipo}s");
-            Console.WriteLine($"(3)Editar {tipo}s");
-            Console.WriteLine($"(4)Excluir um {tipo}");
-            PulaLinha();
-            Console.WriteLine("(S)Sair");
-            PulaLinha();
-
-            Console.Write("Escolha: ");
-            string entrada = Console.ReadLine();
-
-            return entrada;
         }
 
         static DateTime ValidaData(string mensagem)
@@ -580,7 +680,7 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
 
                 if (!validaData)
                 {
-                    Console.WriteLine("Atenção, escreva uma data válida");
+                    MensagemColor("Atenção, escreva uma data válida\n", ConsoleColor.Red);
                     Console.Write(mensagem);
                 }
 
@@ -606,7 +706,7 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
 
                 if (!validaNumero || !validaIndex)
                 {
-                    Console.WriteLine("Atenção, apenas ID`s existentes");
+                    MensagemColor("Atenção, apenas ID`s existentes\n", ConsoleColor.Red);
                     Console.Write(mensagem);
                 }
 
@@ -628,7 +728,7 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
 
                 if (!validaNome)
                 {
-                    Console.WriteLine("Atenção, \"Nome\" com no mínimo 6 caracteres");
+                    MensagemColor("Atenção, \"Nome\" com no mínimo 6 caracteres\n", ConsoleColor.Red);
                     Console.Write(mensagem);
                 }
 
@@ -651,7 +751,7 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
 
                 if (!validaNumero)
                 {
-                    Console.WriteLine("Atenção, apenas números");
+                    MensagemColor("Atenção, apenas números\n", ConsoleColor.Red);
                     Console.Write(mensagem);
                 }
 
