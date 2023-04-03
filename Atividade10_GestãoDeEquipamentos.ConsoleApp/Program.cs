@@ -11,6 +11,7 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
         static ArrayList dataFabricacaoEquipamentos = new();
         static ArrayList fabricanteEquipamentos = new();
 
+        static ArrayList idChamadosSyncEquipamentos = new();
         static ArrayList idChamados = new();
         static ArrayList tituloChamados = new();
         static ArrayList descricaoChamados = new();
@@ -92,32 +93,32 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
         static void ListaEquipamentosPreDefinida()
         {
             idEquipamentos.Add(1);
-            nomeEquipamentos.Add("Galaxy Y");
+            nomeEquipamentos.Add("Impressora Deskjet 2760");
             precoEquipamentos.Add("750");
             numeroSerieEquipamentos.Add("25648");
             dataFabricacaoEquipamentos.Add("20/04/2022");
-            fabricanteEquipamentos.Add("Samsung");
+            fabricanteEquipamentos.Add("HP");
 
             idEquipamentos.Add(2);
-            nomeEquipamentos.Add("Monitor Wide");
+            nomeEquipamentos.Add("Monitor LG UltraWide");
             precoEquipamentos.Add("450");
             numeroSerieEquipamentos.Add("54236");
             dataFabricacaoEquipamentos.Add("27/07/2022");
             fabricanteEquipamentos.Add("LG");
 
             idEquipamentos.Add(3);
-            nomeEquipamentos.Add("Aspirador");
+            nomeEquipamentos.Add("Galaxy S20e");
             precoEquipamentos.Add("480");
             numeroSerieEquipamentos.Add("23654");
             dataFabricacaoEquipamentos.Add("23/11/2022");
-            fabricanteEquipamentos.Add("Xiaomi");
+            fabricanteEquipamentos.Add("Samsung");
 
             idEquipamentos.Add(4);
-            nomeEquipamentos.Add("Liquidificador");
+            nomeEquipamentos.Add("Teclado Gamer Logitech");
             precoEquipamentos.Add("120");
             numeroSerieEquipamentos.Add("14587");
             dataFabricacaoEquipamentos.Add("12/06/2022");
-            fabricanteEquipamentos.Add("Britania");
+            fabricanteEquipamentos.Add("Logitech");
         }
 
         static void ListaChamadosPreDefinida()
@@ -126,6 +127,7 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
             TimeSpan diasEmAberto;
             DateTime dataAbertura;
 
+            idChamadosSyncEquipamentos.Add(1);
             idChamados.Add(1);
             tituloChamados.Add("Impressora Problema Cartucho");
             descricaoChamados.Add("A impressora está com problema no cartucho");
@@ -135,6 +137,7 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
             diasEmAberto = dataAtual - dataAbertura;
             diasEmAbertoChamados.Add(Math.Round(diasEmAberto.TotalDays));
 
+            idChamadosSyncEquipamentos.Add(3);
             idChamados.Add(2);
             tituloChamados.Add("Galaxy S20e preto com capa");
             descricaoChamados.Add("Placa queimada");
@@ -144,6 +147,7 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
             diasEmAberto = dataAtual - dataAbertura;
             diasEmAbertoChamados.Add(Math.Round(diasEmAberto.TotalDays));
 
+            idChamadosSyncEquipamentos.Add(2);
             idChamados.Add(3);
             tituloChamados.Add("Monitor UltraWide Conector");
             descricaoChamados.Add("Conector HDMI falhando");
@@ -153,6 +157,7 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
             diasEmAberto = dataAtual - dataAbertura;
             diasEmAbertoChamados.Add(Math.Round(diasEmAberto.TotalDays));
 
+            idChamadosSyncEquipamentos.Add(4);
             idChamados.Add(4);
             tituloChamados.Add("Teclado faltando tecla");
             descricaoChamados.Add("Repor teclas faltando");
@@ -319,7 +324,7 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
             Console.Write("Digite a Nova Fabricante do Equipamento: ");
             fabricante = Console.ReadLine();
 
-            EditaEquipamentoEscolhido(nome, preco, numeroSerie, dataFabricacao, fabricante, indexEscolhido);
+            EditaEquipamentoEscolhido(nome, preco, numeroSerie, dataFabricacao, fabricante, indexEscolhido, idEscolhido);
 
             Console.Clear();
 
@@ -331,8 +336,16 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
             Console.ReadLine();
         }
 
-        static void EditaEquipamentoEscolhido(string nome, string preco, string numeroSerie, DateTime dataFabricacao, string fabricante, int indexEscolhido)
+        static void EditaEquipamentoEscolhido(string nome, string preco, string numeroSerie, DateTime dataFabricacao, string fabricante, int indexEscolhido, int idEscolhido)
         {
+            int indexEquipamentoChamado = idChamadosSyncEquipamentos.IndexOf(idEscolhido);
+
+            if (indexEquipamentoChamado != -1)
+            {
+                idChamadosSyncEquipamentos[indexEquipamentoChamado] = idEscolhido;
+                equipamentoChamados[indexEquipamentoChamado] = nome;
+            }
+
             nomeEquipamentos[indexEscolhido] = nome;
             precoEquipamentos[indexEscolhido] = preco;
             numeroSerieEquipamentos[indexEscolhido] = numeroSerie;
@@ -374,7 +387,7 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
 
                 if (confirmacao.ToUpper() == "S")
                 {
-                    RemoveEquipamentoEscolhido(indexEscolhido);
+                    RemoveEquipamentoEscolhido(indexEscolhido, idEscolhido);
 
                     Console.Clear();
 
@@ -393,8 +406,23 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
             }
         }
 
-        static void RemoveEquipamentoEscolhido(int indexEscolhido)
+        static void RemoveEquipamentoEscolhido(int indexEscolhido, int idEscolhido)
         {
+            int indexEquipamentoChamado = idChamadosSyncEquipamentos.IndexOf(idEscolhido);
+
+            while (indexEquipamentoChamado != -1)
+            {
+                idChamadosSyncEquipamentos.RemoveAt(indexEquipamentoChamado);
+                idChamados.RemoveAt(indexEquipamentoChamado);
+                tituloChamados.RemoveAt(indexEquipamentoChamado);
+                descricaoChamados.RemoveAt(indexEquipamentoChamado);
+                equipamentoChamados.RemoveAt(indexEquipamentoChamado);
+                dataAberturaChamados.RemoveAt(indexEquipamentoChamado);
+                diasEmAbertoChamados.RemoveAt(indexEquipamentoChamado);
+
+                indexEquipamentoChamado = idChamadosSyncEquipamentos.IndexOf(idEscolhido);
+            }
+
             idEquipamentos.RemoveAt(indexEscolhido);
             nomeEquipamentos.RemoveAt(indexEscolhido);
             precoEquipamentos.RemoveAt(indexEscolhido);
@@ -448,6 +476,11 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
             string descricao;
             string equipamento;
 
+            int idEscolhidoChamado;
+            int idEscolhidoEquipamento;
+            int indexEscolhido;
+            int indexEquipamentoChamado;
+
             VisualizarChamados();
             PulaLinha();
 
@@ -457,14 +490,18 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
             Console.Write("Digite a Descrição: ");
             descricao = Console.ReadLine();
 
-            Console.Write("Digite o Equipamento: ");
-            equipamento = Console.ReadLine();
+            VisualizarEquipamentos();
+            Console.Write("Digite o ID do Equipamento para o Chamado: ");
+            idEscolhidoEquipamento = ValidaIndex("Digite o ID do Equipamento para o Chamado: ", idEquipamentos);
+            indexEquipamentoChamado = idEquipamentos.IndexOf(idEscolhidoEquipamento);
+            equipamento = nomeEquipamentos[indexEquipamentoChamado].ToString();
 
             Console.Write("Digite a Data de Abertura: ");
             dataAbertura = ValidaData("Digite a Data de Abertura: ");
 
             diasEmAberto = dataAtual - dataAbertura;
 
+            idChamadosSyncEquipamentos.Add(idEscolhidoEquipamento);
             idChamados.Add(idChamadosAdd);
             tituloChamados.Add(titulo);
             descricaoChamados.Add(descricao);
@@ -492,8 +529,10 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
             string descricao;
             string equipamento;
 
-            int idEscolhido;
+            int idEscolhidoEquipamento;
+            int idEscolhidoChamado;
             int indexEscolhido;
+            int indexEquipamentoChamado;
 
             VisualizarChamados();
             PulaLinha();
@@ -503,9 +542,9 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
 
             Console.Write("Digite o ID do Equipamento que deseja editar: ");
 
-            idEscolhido = ValidaIndex("Digite o ID do Chamado que deseja editar: ", idChamados);
+            idEscolhidoChamado = ValidaIndex("Digite o ID do Chamado que deseja editar: ", idChamados);
 
-            indexEscolhido = idChamados.IndexOf(idEscolhido);
+            indexEscolhido = idChamados.IndexOf(idEscolhidoChamado);
 
             Console.Write("Digite o Novo Título do Chamado: ");
             titulo = Console.ReadLine();
@@ -513,28 +552,32 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
             Console.Write("Digite a Nova Descrição: ");
             descricao = Console.ReadLine();
 
-            Console.Write("Digite o Novo Equipamento: ");
-            equipamento = Console.ReadLine();
+            VisualizarEquipamentos();
+            Console.Write("Digite o ID do Novo Equipamento para o Chamado: ");
+            idEscolhidoEquipamento = ValidaIndex("Digite o ID do Novo Equipamento para o Chamado: ", idEquipamentos);
+            indexEquipamentoChamado = idEquipamentos.IndexOf(idEscolhidoEquipamento);
+            equipamento = nomeEquipamentos[indexEquipamentoChamado].ToString();
 
             Console.Write("Digite a Nova Data de Abertura: ");
             dataAbertura = ValidaData("Digite a Nova Data de Abertura: ");
 
             diasEmAberto = dataAtual - dataAbertura;
 
-            EditaChamadoEscolhido(diasEmAberto, dataAbertura, titulo, descricao, equipamento, indexEscolhido);
+            EditaChamadoEscolhido(diasEmAberto, dataAbertura, titulo, descricao, equipamento, indexEscolhido, idEscolhidoEquipamento);
 
             Console.Clear();
 
             VisualizarChamados();
 
             PulaLinha();
-            MensagemColor($"Chamado com o ID \"{idEscolhido}\" editado com sucesso!", ConsoleColor.Green);
+            MensagemColor($"Chamado com o ID \"{idEscolhidoChamado}\" editado com sucesso!", ConsoleColor.Green);
 
             Console.ReadLine();
         }
 
-        static void EditaChamadoEscolhido(TimeSpan diasEmAberto, DateTime dataAbertura, string titulo, string descricao, string equipamento, int indexEscolhido)
+        static void EditaChamadoEscolhido(TimeSpan diasEmAberto, DateTime dataAbertura, string titulo, string descricao, string equipamento, int indexEscolhido, int idEscolhidoEquipamento)
         {
+            idChamadosSyncEquipamentos[indexEscolhido] = idEscolhidoEquipamento;
             tituloChamados[indexEscolhido] = titulo;
             descricaoChamados[indexEscolhido] = descricao;
             equipamentoChamados[indexEscolhido] = equipamento;
@@ -602,6 +645,7 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
 
         static void RemoveChamadoEscolhido(int indexEscolhido)
         {
+            idChamadosSyncEquipamentos.RemoveAt(indexEscolhido);
             idChamados.RemoveAt(indexEscolhido);
             tituloChamados.RemoveAt(indexEscolhido);
             descricaoChamados.RemoveAt(indexEscolhido);
