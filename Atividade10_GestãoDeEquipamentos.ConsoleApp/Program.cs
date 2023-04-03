@@ -60,36 +60,52 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
             ArrayList descricaoChamados = new ArrayList();
             ArrayList equipamentoChamados = new ArrayList();
             ArrayList dataAberturaChamados = new ArrayList();
+            ArrayList diasEmAbertoChamados = new ArrayList();
+
+            DateTime dataAtual = DateTime.Now;
+            TimeSpan diasEmAberto;
 
             int idChamadosAdd = 5;
             string titulo;
             string descricao;
             string equipamento;
-            string dataAbertura;
+            DateTime dataAbertura;
 
             idChamados.Add(1);
             tituloChamados.Add("Impressora Problema Cartucho");
             descricaoChamados.Add("A impressora está com problema no cartucho");
             equipamentoChamados.Add("Impressora Deskjet 2760");
+            dataAbertura = DateTime.Parse("12/01/2023");
             dataAberturaChamados.Add("12/01/2023");
+            diasEmAberto = dataAtual - dataAbertura;
+            diasEmAbertoChamados.Add(Math.Round(diasEmAberto.TotalDays));
 
             idChamados.Add(2);
             tituloChamados.Add("Galaxy S20e preto com capa");
             descricaoChamados.Add("Placa queimada");
             equipamentoChamados.Add("Galaxy S20e");
+            dataAbertura = DateTime.Parse("27/12/2022");
             dataAberturaChamados.Add("27/12/2022");
+            diasEmAberto = dataAtual - dataAbertura;
+            diasEmAbertoChamados.Add(Math.Round(diasEmAberto.TotalDays));
 
             idChamados.Add(3);
             tituloChamados.Add("Monitor UltraWide Conector");
             descricaoChamados.Add("Conector HDMI falhando");
             equipamentoChamados.Add("Monitor LG UltraWide");
+            dataAbertura = DateTime.Parse("15/02/2023");
             dataAberturaChamados.Add("15/02/2023");
+            diasEmAberto = dataAtual - dataAbertura;
+            diasEmAbertoChamados.Add(Math.Round(diasEmAberto.TotalDays));
 
             idChamados.Add(4);
             tituloChamados.Add("Teclado faltando tecla");
             descricaoChamados.Add("Repor teclas faltando");
             equipamentoChamados.Add("Teclado Gamer Logitech");
+            dataAbertura = DateTime.Parse("22/03/2023");
             dataAberturaChamados.Add("22/03/2023");
+            diasEmAberto = dataAtual - dataAbertura;
+            diasEmAbertoChamados.Add(Math.Round(diasEmAberto.TotalDays));
             #endregion
 
             while (true)
@@ -130,7 +146,7 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
                         numeroSerie = Console.ReadLine();
 
                         Console.Write("Digite a Data de Fabricação: ");
-                        dataFabricacao = Console.ReadLine(); ;
+                        dataFabricacao = Console.ReadLine();
 
                         Console.Write("Digite a Fabricante do Equipamento: ");
                         fabricante = Console.ReadLine();
@@ -266,14 +282,17 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
 
                     if (opcaoEscolhidaSubMenu == "1")
                     {
-                        VisualizarChamados(idChamados, tituloChamados, descricaoChamados, equipamentoChamados, dataAberturaChamados);
+                        VisualizarChamados(idChamados, tituloChamados, descricaoChamados, equipamentoChamados, dataAberturaChamados, diasEmAbertoChamados);
                         Console.ReadLine();
                     }
 
                     else if (opcaoEscolhidaSubMenu == "2")
                     {
                         #region Add Chamado
-                        VisualizarChamados(idChamados, tituloChamados, descricaoChamados, equipamentoChamados, dataAberturaChamados);
+
+                        dataAtual = DateTime.Now;
+
+                        VisualizarChamados(idChamados, tituloChamados, descricaoChamados, equipamentoChamados, dataAberturaChamados, diasEmAbertoChamados);
                         PulaLinha();
 
                         Console.Write("Digite o Título do Chamado: ");
@@ -286,17 +305,20 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
                         equipamento = Console.ReadLine();
 
                         Console.Write("Digite a Data de Abertura: ");
-                        dataAbertura = Console.ReadLine();
+                        dataAbertura = ValidaData("Digite a Data de Abertura: ");
+
+                        diasEmAberto = dataAtual - dataAbertura;
 
                         idChamados.Add(idChamadosAdd);
                         tituloChamados.Add(titulo);
                         descricaoChamados.Add(descricao);
                         equipamentoChamados.Add(equipamento);
-                        dataAberturaChamados.Add(dataAbertura);
+                        dataAberturaChamados.Add(dataAbertura.ToString("d"));
+                        diasEmAbertoChamados.Add(Math.Round(diasEmAberto.TotalDays));
 
                         idChamadosAdd++;
 
-                        VisualizarChamados(idChamados, tituloChamados, descricaoChamados, equipamentoChamados, dataAberturaChamados);
+                        VisualizarChamados(idChamados, tituloChamados, descricaoChamados, equipamentoChamados, dataAberturaChamados, diasEmAbertoChamados);
 
                         PulaLinha();
                         MensagemColor($"Chamado \"{titulo}\" adicionado com sucesso!", ConsoleColor.Green);
@@ -309,7 +331,10 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
                     else if (opcaoEscolhidaSubMenu == "3")
                     {
                         #region Editar Chamados
-                        VisualizarChamados(idChamados, tituloChamados, descricaoChamados, equipamentoChamados, dataAberturaChamados);
+
+                        dataAtual = DateTime.Now;
+
+                        VisualizarChamados(idChamados, tituloChamados, descricaoChamados, equipamentoChamados, dataAberturaChamados, diasEmAbertoChamados);
                         PulaLinha();
 
                         Console.Write("Digite o ID do Equipamento que deseja editar: ");
@@ -328,21 +353,25 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
                         equipamento = Console.ReadLine();
 
                         Console.Write("Digite a Nova Data de Abertura: ");
-                        dataAbertura = Console.ReadLine();
+                        dataAbertura = ValidaData("Digite a Nova Data de Abertura: ");
+
+                        diasEmAberto = dataAtual - dataAbertura;
 
                         tituloChamados.RemoveAt(indexEscolhido);
                         descricaoChamados.RemoveAt(indexEscolhido);
                         equipamentoChamados.RemoveAt(indexEscolhido);
                         dataAberturaChamados.RemoveAt(indexEscolhido);
+                        diasEmAbertoChamados.RemoveAt(indexEscolhido);
 
                         tituloChamados.Insert(indexEscolhido, titulo);
                         descricaoChamados.Insert(indexEscolhido, descricao);
                         equipamentoChamados.Insert(indexEscolhido, equipamento);
-                        dataAberturaChamados.Insert(indexEscolhido, dataAbertura);
+                        dataAberturaChamados.Insert(indexEscolhido, dataAbertura.ToString("d"));
+                        diasEmAbertoChamados.Insert(indexEscolhido, Math.Round(diasEmAberto.TotalDays));
 
                         Console.Clear();
 
-                        VisualizarChamados(idChamados, tituloChamados, descricaoChamados, equipamentoChamados, dataAberturaChamados);
+                        VisualizarChamados(idChamados, tituloChamados, descricaoChamados, equipamentoChamados, dataAberturaChamados, diasEmAbertoChamados);
 
                         PulaLinha();
                         MensagemColor($"Chamado com o ID \"{idEscolhido}\" editado com sucesso!", ConsoleColor.Green);
@@ -355,14 +384,14 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
                     else if (opcaoEscolhidaSubMenu == "4")
                     {
                         #region Excluir Chamados
-                        VisualizarChamados(idChamados, tituloChamados, descricaoChamados, equipamentoChamados, dataAberturaChamados);
+                        VisualizarChamados(idChamados, tituloChamados, descricaoChamados, equipamentoChamados, dataAberturaChamados, diasEmAbertoChamados);
                         PulaLinha();
 
                         Console.Write("Digite o ID do Chamado que deseja excluir: ");
 
                         idEscolhido = ValidaIndex("Digite o ID do Chamado que deseja excluir: ", idChamados);
 
-                        indexEscolhido = idEquipamentos.IndexOf(idEscolhido);
+                        indexEscolhido = idChamados.IndexOf(idEscolhido);
 
                         Console.Write("Você tem certeza que deseja excluir o Chamado com o ID ");
                         MensagemColor($"\"{idEscolhido}\"", ConsoleColor.Blue);
@@ -378,10 +407,11 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
                             descricaoChamados.RemoveAt(indexEscolhido);
                             equipamentoChamados.RemoveAt(indexEscolhido);
                             dataAberturaChamados.RemoveAt(indexEscolhido);
+                            diasEmAbertoChamados.RemoveAt(indexEscolhido);
 
                             Console.Clear();
 
-                            VisualizarChamados(idChamados, tituloChamados, descricaoChamados, equipamentoChamados, dataAberturaChamados);
+                            VisualizarChamados(idChamados, tituloChamados, descricaoChamados, equipamentoChamados, dataAberturaChamados, diasEmAbertoChamados);
 
                             PulaLinha();
                             MensagemColor($"Chamado com o ID \"{idEscolhido}\" editado com sucesso!", ConsoleColor.Green);
@@ -404,7 +434,7 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
             }
         }
 
-        private static void VisualizarChamados(ArrayList idChamados, ArrayList tituloChamados, ArrayList descricaoChamados, ArrayList equipamentoChamados, ArrayList dataAberturaChamados)
+        private static void VisualizarChamados(ArrayList idChamados, ArrayList tituloChamados, ArrayList descricaoChamados, ArrayList equipamentoChamados, ArrayList dataAberturaChamados, ArrayList diasEmAbertoChamados)
         {
             Console.Clear();
 
@@ -413,8 +443,9 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
             Console.Write("Título".PadRight(40) + "│");
             Console.Write("Descrição".PadRight(50) + "│");
             Console.Write("Equipamento".PadRight(30) + "│");
-            Console.WriteLine("Data de Abertura".PadRight(20) + "│");
-            Console.WriteLine("".PadRight(152, '―'));
+            Console.Write("Data de Abertura".PadRight(20) + "│");
+            Console.WriteLine("Dias em Aberto".PadRight(15) + "│");
+            Console.WriteLine("".PadRight(169, '―'));
             Console.ResetColor();
 
             for (int i = 0; i < idChamados.Count; i++)
@@ -434,12 +465,15 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
                 string descricao = descricaoChamados[i].ToString().PadRight(50);
                 string equimamento = equipamentoChamados[i].ToString().PadRight(30);
                 string dataAbertura = dataAberturaChamados[i].ToString().PadRight(20);
+                string diasEmAberto = diasEmAbertoChamados[i].ToString().PadRight(15);
+
 
                 Console.Write("#" + id + "│");
                 Console.Write(titulo + "│");
                 Console.Write(descricao + "│");
                 Console.Write(equimamento + "│");
-                Console.WriteLine(dataAbertura + "│");
+                Console.Write(dataAbertura + "│");
+                Console.WriteLine(diasEmAberto + "│");
             }
             Console.ResetColor();
         }
@@ -530,6 +564,29 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
             string entrada = Console.ReadLine();
 
             return entrada;
+        }
+
+        static DateTime ValidaData(string mensagem)
+        {
+            bool validaData;
+            string entrada;
+            DateTime dataAbertura;
+
+            do
+            {
+                entrada = Console.ReadLine();
+
+                validaData = DateTime.TryParse(entrada, out dataAbertura);
+
+                if (!validaData)
+                {
+                    Console.WriteLine("Atenção, escreva uma data válida");
+                    Console.Write(mensagem);
+                }
+
+            } while (!validaData);
+
+            return dataAbertura;
         }
 
         static int ValidaIndex(string mensagem, ArrayList idList)
