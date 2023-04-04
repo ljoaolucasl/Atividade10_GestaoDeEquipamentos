@@ -192,9 +192,9 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
 
             Console.WriteLine($"Cadastro de {tipo}s");
             PulaLinha();
-            Console.WriteLine($"(1)Visualizar {tipo}");
-            Console.WriteLine($"(2)Adicionar novo {tipo}s");
-            Console.WriteLine($"(3)Editar {tipo}s");
+            Console.WriteLine($"(1)Visualizar {tipo}s");
+            Console.WriteLine($"(2)Adicionar novo {tipo}");
+            Console.WriteLine($"(3)Editar {tipo}");
             Console.WriteLine($"(4)Excluir um {tipo}");
             PulaLinha();
             Console.WriteLine("(S)Sair");
@@ -338,12 +338,12 @@ namespace Atividade10_GestãoDeEquipamentos.ConsoleApp
 
         static void EditaEquipamentoEscolhido(string nome, string preco, string numeroSerie, DateTime dataFabricacao, string fabricante, int indexEscolhido, int idEscolhido)
         {
-            int indexEquipamentoChamado = idChamadosSyncEquipamentos.IndexOf(idEscolhido);
-
-            if (indexEquipamentoChamado != -1)
+            for (int i = 0; i < idChamadosSyncEquipamentos.Count; i++)
             {
-                idChamadosSyncEquipamentos[indexEquipamentoChamado] = idEscolhido;
-                equipamentoChamados[indexEquipamentoChamado] = nome;
+                if ((int)idChamadosSyncEquipamentos[i] == idEscolhido)
+                {
+                    equipamentoChamados[i] = nome;
+                }
             }
 
             nomeEquipamentos[indexEscolhido] = nome;
